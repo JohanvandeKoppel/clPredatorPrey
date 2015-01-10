@@ -10,7 +10,7 @@ The use of graphics processors for simulating ecological models (using CUDA) at 
 
 van de Koppel, J., R. Gupta and C. Vuik (2011). "Scaling-up spatially-explicit ecological models using graphics processors." Ecological Modelling 222(17): 3011-3019.
 
-To run this model, read my "General-Instructions" repository. 
+To run this model, read the explanation on the main page https://johanvandekoppel.github.io.
 
 
 
