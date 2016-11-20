@@ -6,15 +6,15 @@ setwd("/Simulations/OpenCL/clPredPrey/clPredPrey")
 
 require(fields)
 
-FID = file("clPredPrey.dat", "rb")
+FID = file("Output.dat", "rb")
 
 NX = readBin(FID, integer(), n = 1, endian = "little");
 NY = readBin(FID, integer(), n = 1, endian = "little");
-NumFrames = readBin(FID, integer(), n = 1, endian = "little");
 Length=readBin(FID,  numeric(), size=4, n = 1, endian = "little")
+NumFrames = readBin(FID, integer(), n = 1, endian = "little");
 EndTime=readBin(FID,  integer(), n = 1, endian = "little")
 
-Movie=on
+Movie=off
 Wait=off
 AllWindows=on
 DPI=144

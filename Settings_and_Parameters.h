@@ -10,22 +10,19 @@
 #define OFF             0
 
 #define Print_All_Devices OFF
-#define Give_Error_Numbers OFF
+
 #define Device_No       1    // 0: CPU; 1: Intel 4000; 2: Nvidia
 #define ProgressBarWidth 45
 
-#define LoadCurrentPlot OFF
-#define SaveEachPlot    OFF
-
 // Thread block size
-#define Block_Size_X	64                // 16
-#define Block_Size_Y	64                // 16
+#define Block_Size_X	16                // 16
+#define Block_Size_Y	16                // 16
 
 // Number of blox
 /* I define the Block_Number_ensions of the matrix as product of two numbers
 Makes it easier to keep them a multiple of something (16, 32) when using CUDA*/
-#define Block_Number_X	16               // 32
-#define Block_Number_Y	16               // 32
+#define Block_Number_X	64                // 32
+#define Block_Number_Y	64                // 32
 
 // Matrix Block_Number_ensions
 // (chosen as multiples of the thread block size for simplicity)

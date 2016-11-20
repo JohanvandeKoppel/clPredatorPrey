@@ -4,32 +4,31 @@
 // Laplacation operator definition, to calculate diffusive fluxes
 ////////////////////////////////////////////////////////////////////////////////
 
-float LaplacianXY(__global float* pop, int row, int column)
+float d2_dxy2(__global float* pop, int row, int column)
 {
     float retval;
-    int current, left, right, top, bottom;
     float dx = dX;
     float dy = dY;
     
-    current=row * Grid_Width + column;
-    left=row * Grid_Width + column-1;
-    right=row * Grid_Width + column+1;
-    top=(row-1) * Grid_Width + column;
-    bottom=(row+1) * Grid_Width + column;
+    int current = row * Grid_Width + column;
+    int left    = row * Grid_Width + column-1;
+    int right   = row * Grid_Width + column+1;
+    int top     = (row-1) * Grid_Width + column;
+    int bottom  = (row+1) * Grid_Width + column;
     
     retval = ( (( pop[current] - pop[left] )/dx )
               -(( pop[right]   - pop[current] )/dx )) / dx +
              ( (( pop[current] - pop[top] )/dy  )
               -(( pop[bottom]  - pop[current] )/dy ) ) / dy;
     
-    return retval;
+    return retval; 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Simulation kernel
 ////////////////////////////////////////////////////////////////////////////////
 
-__kernel void PredPreyKernel (__global float* Prey, __global float* Pred)
+__kernel void SimulationKernel (__global float* Prey, __global float* Pred)
 {
 	
  	float d2Preydxy2,d2Preddxy2;
@@ -46,11 +45,11 @@ __kernel void PredPreyKernel (__global float* Prey, __global float* Pred)
 		// update the current grid values
         
 		//Now calculating terms for the Prey Matrix
-		d2Preydxy2 =  -DifPrey * LaplacianXY(Prey, row, column);
+		d2Preydxy2 =  -DifPrey * d2_dxy2(Prey, row, column);
 		drPrey = Prey[current] * (1.0f - Prey[current]) - C/(1.0f + C*Prey[current]) * Prey[current] * Pred[current];
         
 		//Now calculating terms for the Predator Matrix
-		d2Preddxy2 =  -DifPred * LaplacianXY(Pred, row, column);
+		d2Preddxy2 =  -DifPred * d2_dxy2(Pred, row, column);
 		drPred = Pred[current]/(A * B)*( A * C * Prey[current]/(1.0f + C*Prey[current]) - 1.0f);
         
 		Prey[current]=Prey[current]+(drPrey + d2Preydxy2)*dT;
